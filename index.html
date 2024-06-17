@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+        #movie-display {
+            text-align: center;
+        }
+        #movie-display img {
+            width: 200px;
+            height: 300px;
+            object-fit: cover;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div id="movie-display">
+        <h2 id="movie-name"></h2>
+        <img id="movie-image" src="" alt="">
+    </div>
+    <button onclick="pickRandomMovie()">Pick a Disney Movie</button>
+
+    <script>
+        const movies = [
+            '101 Dalmatians',
+            'Aladdin',
+            'Alice in Wonderland',
+            'Atlantis',
+            'Beauty & the Beast',
+            'Cinderella',
+            'Duck Tales',
+            'Encanto',
+            'Fantasia',
+            'Frozen',
+            'Hercules',
+            'Lilo and Stitch',
+            'Micky Mouse and Friends',
+            'Moana',
+            'Mulan',
+            'Peter Pan',
+            'Pinocchio',
+            'Raya and the Last Dragon',
+            'Robin Hood',
+            'Sleeping Beauty',
+            'Snow White and the Seven Dwarfs',
+            'TaleSpin',
+            'Tangled',
+            'The Emperor\'s New Groove',
+            'The Great Mouse Detective',
+            'The Jungle Book',
+            'The Lion King',
+            'The Little Mermaid',
+            'The Princess and the Frog',
+            'The Rescuers',
+            'The Sword in the Stone',
+            'Treasure Planet',
+            'Winnie the Pooh',
+            'Wreck it Ralph',
+            'Zootopia'
+        ];
+
+        function pickRandomMovie() {
+            const randomIndex = Math.floor(Math.random() * movies.length);
+            const movieName = movies[randomIndex];
+            document.getElementById('movie-name').textContent = movieName;
+
+            const apiKey = 'YOUR    API    KEY';
+
+            fetch(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${encodeURIComponent(movieName)}`)
+                .then(response => response.json())
+                .then(data => {
+                    const movie = data.results[0];
+                    const imageUrl = 'https://image.tmdb.org/t/p/w500' + movie.poster_path;
+                    document.getElementById('movie-image').src = imageUrl;
+                });
+        }
+    </script>
+</body>
+</html>
